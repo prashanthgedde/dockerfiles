@@ -2,16 +2,22 @@ FROM ubuntu:17.04
 
 MAINTAINER prashanth.gedde@gmail.com
 
+# install python
 RUN apt-get update && apt-get install -y python \
     python-dev \
     python-pip
 
-RUN pip install --no-cache-dir numpy scipy pandas scikit-learn jupyter 
+# pip-install all python libraries
+RUN pip install --no-cache-dir numpy scipy matplotlib pandas scikit-learn jupyter
 
+# adding user 'pnarayan'
 RUN useradd -ms /bin/bash pnarayan
 USER pnarayan
 WORKDIR /home/pnarayan
 
+# expose Jupyter port 8888
 EXPOSE 8888
+
+# start Jupyter server
 ENTRYPOINT ["/bin/sh"]
 CMD ["-c", "jupyter notebook --no-browser --port=8888 --ip=0.0.0.0"]
